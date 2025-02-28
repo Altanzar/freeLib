@@ -5,7 +5,14 @@
 
 freeLib - каталогизатор для библиотек LibRusEc и Flibusta
 
-Это форк общедоступного freeLib 5.0 , разработка которого прекращена. 
+Это форк форка общедоступного freeLib 5.0 , разработка которого прекращена. 
+С целью сделать рабочий билд под windows (и он уже есть!)
+
+TODO:
+* иконка не работает
+* cmake --install под windows
+* убрать консоль
+ 
 ![screenshot](./doc/screenshot.png#gh-light-mode-only)
 ![screenshot](./doc/screenshot-dark.png#gh-dark-mode-only)
 * Создание собственных библиотек на основе файлов FB2(.ZIP), EPUB, FBD.
