@@ -382,8 +382,11 @@ void ExportThread::export_books()
             vBbooksGroup.back().push_back(idBook);
         }
     }
-
+#ifndef Q_OS_WIN
     auto nMaxFileName = pathconf(sExportDir_.toUtf8().data(), _PC_NAME_MAX);
+#else
+    auto nMaxFileName = PATH_MAX;
+#endif
     if(nMaxFileName<0)
         nMaxFileName = 255;
     uint count = 0;

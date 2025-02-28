@@ -383,7 +383,9 @@ int main(int argc, char *argv[])
 #endif
 #ifdef USE_HTTSERVER
     if(bServer){
+#ifndef Q_OS_WINDOWS
         setenv("QT_QPA_PLATFORM", "offscreen", 1);
+#endif
         a = std::unique_ptr<QCoreApplication>(new QGuiApplication(argc, argv));
     }else
 #endif

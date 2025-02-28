@@ -2924,7 +2924,7 @@ void MainWindow::TrayMenuAction(QSystemTrayIcon::ActivationReason reson)
     if(this->isVisible())
     {
         this->setWindowState(this->windowState()|Qt::WindowMinimized);
-        if(options.nIconTray !=0 )
+        if(g::options.nIconTray !=0 )
             this->hide();
     }
     else

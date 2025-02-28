@@ -26,7 +26,7 @@ elseif(EXISTS ${CMAKE_SOURCE_DIR}/.gitrev)
 endif()
 message(STATUS "Found Git HEAD Revision: ${GIT_HEAD}\n")
 
-if(UNIX AND NOT APPLE)
+if(NOT APPLE)
     file(COPY src/xsl/fonts DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/xsl)
 
     include(GNUInstallDirs)
