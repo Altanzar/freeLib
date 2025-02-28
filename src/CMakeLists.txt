@@ -135,9 +135,9 @@ endif()
 #configure_file(translations.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 #file(COPY ${TS_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/translate)
 
-if(UNIX AND NOT APPLE)
+if(NOT APPLE)
     file(COPY xsl/fonts DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/xsl)
-endif(UNIX AND NOT APPLE)
+endif(NOT APPLE)
 
 if(FREELIB_QT_MAJOR_VERSION EQUAL 6)
   if(WIN32)
@@ -213,6 +213,11 @@ if(TBB_FOUND)
     target_link_libraries(freelib PRIVATE TBB::tbb)
 endif()
 
+# hate cmake for external smtpclient
+target_link_libraries(freelib PUBLIC SmtpMime -LH:/Qt/freeLib-master/src/SmtpClient/build/lib/)
+target_compile_definitions(freelib
+	    PRIVATE SMTP_MIME_LIBRARY
+    )
 target_precompile_headers(freelib
   PRIVATE
     precompiled.h
@@ -228,7 +233,7 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(freelib)
 endif()
 
-if(UNIX AND NOT APPLE)
+if(NOT APPLE)
     install(TARGETS freelib DESTINATION ${CMAKE_INSTALL_BINDIR})
-endif(UNIX AND NOT APPLE)
+endif(NOT APPLE)
 
