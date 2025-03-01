@@ -6,6 +6,7 @@ configure_file(git-info.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/git-info.h)
 set(QT_COMPONENTS Core Network Widgets Gui Svg Sql Xml Concurrent)
 
 find_package(QT NAMES Qt6 Qt5 QUIET COMPONENTS Core)
+#find_package(Qt6 QUIET COMPONENTS Core)
 message(STATUS "Found Qt ${QT_VERSION_MAJOR} VERSION")
 if(NOT DEFINED FREELIB_QT_MAJOR_VERSION)
     set(FREELIB_QT_MAJOR_VERSION ${QT_VERSION_MAJOR} CACHE STRING "Qt version to use (5 or 6), defaults to ${QT_VERSION_MAJOR}")
@@ -34,6 +35,7 @@ endif()
 
 find_package(ZLIB REQUIRED)
 find_package(TBB QUIET)
+
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(DjVuLibre QUIET)
@@ -183,9 +185,9 @@ target_link_libraries(freelib PRIVATE
     Qt${QT_VERSION_MAJOR}::Concurrent
     QuaZip::QuaZip)
 
-if(Qt6HttpServer_FOUND)
-    target_link_libraries(freelib PRIVATE Qt${QT_VERSION_MAJOR}::HttpServer)
-endif()
+#if(Qt6HttpServer_FOUND)
+#    target_link_libraries(freelib PRIVATE Qt${QT_VERSION_MAJOR}::HttpServer)
+#endif()
 
 if(KF${FREELIB_QT_MAJOR_VERSION}KIO_FOUND)
     target_link_libraries(freelib PRIVATE KF${FREELIB_QT_MAJOR_VERSION}::KIOCore)
@@ -203,7 +205,7 @@ if(TBB_FOUND)
     target_link_libraries(freelib PRIVATE TBB::tbb)
 endif()
 
-# hate cmake for external smtpclient
+#target_link_libraries(freelib PUBLIC SmtpMime Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network -LH:/Qt/freeLib-master/src/SmtpClient/build/lib/libSmtpMime.dll.a)
 target_link_libraries(freelib PUBLIC SmtpMime -LH:/Qt/freeLib-master/src/SmtpClient/build/lib/)
 target_compile_definitions(freelib
 	    PRIVATE SMTP_MIME_LIBRARY
