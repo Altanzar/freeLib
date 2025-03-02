@@ -143,6 +143,7 @@ endif(NOT APPLE)
 
 if(FREELIB_QT_MAJOR_VERSION EQUAL 6)
   if(WIN32)
+    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/win.rc")
     qt_add_executable(freelib
       WIN32
       MANUAL_FINALIZATION
