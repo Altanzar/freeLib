@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - Release.*
+      - v*
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
@@ -12,7 +12,10 @@ env:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ windows-2022, windows-2025 ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,19 +37,33 @@ jobs:
           set-env: 'true'
           tools: 'tools_mingw1310' # base 12.2 with link error
       - name: Configure FreeLib
-        run: cmake -DCMAKE_PREFIX_PATH=C:/mingw64/ -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "MinGW Makefiles" -B ${{github.workspace}}/build
+        run: cmake -DCMAKE_PREFIX_PATH=C:/mingw64/ -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "MinGW Makefiles" -B ${{github.workspace}}/freeLib-${{ matrix.os }}-build
       - name: Build FreeLib
-        run: cmake --build ${{github.workspace}}\build --config ${{env.BUILD_TYPE}} -j4
+        run: cmake --build ${{github.workspace}}\freeLib-${{ matrix.os }}-build --config ${{env.BUILD_TYPE}} -j4
       - name: Install FreeLib
-        run: cmake --install ${{github.workspace}}\build --prefix ${{github.workspace}}\final
+        run: cmake --install ${{github.workspace}}\freeLib-${{ matrix.os }}-build --prefix ${{github.workspace}}\freeLib-${{ matrix.os }}-final
       - name: Compress portable program
         run: |
-          cd ${{github.workspace}}\final\bin
+          cd ${{github.workspace}}\freeLib-${{ matrix.os }}-final\bin
           windeployqt.exe freelib.exe --release --no-translations --no-system-d3d-compiler --no-opengl-sw 
           Copy-Item -Path "C:/vcpkg/installed/x64-windows/bin/zlib1.dll" -Destination .
-          Copy-Item -Path "${{github.workspace}}\final\share\translations\*" -Destination translations
+          Copy-Item -Path "${{github.workspace}}\freeLib-${{ matrix.os }}-final\share\translations\*" -Destination translations
       - name: always
-        if: always()
         uses: actions/upload-artifact@v4
         with:
-          path: ${{github.workspace}}/final/bin/
+          name: freeLib-${{ matrix.os }}
+          path: ${{github.workspace}}/freeLib-${{ matrix.os }}-final/bin/
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: freeLib-*/freeLib-*
+          tag_name: ${{ github.sha }}
+          body: "Automated release from the release branch."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
