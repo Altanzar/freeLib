@@ -114,11 +114,11 @@ if(TBB_FOUND)
 endif()
 
 configure_file(translations.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-file(COPY ${TS_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/translate)
+#file(COPY ${TS_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/translate)
 
-if(NOT APPLE)
+if(UNIX)
     file(COPY xsl/fonts DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/xsl)
-endif(NOT APPLE)
+endif(UNIX)
 
 if(FREELIB_QT_MAJOR_VERSION EQUAL 6)
   qt6_add_resources(PROJECT_SOURCES resource.qrc)
@@ -144,8 +144,8 @@ endif()
 file(GLOB QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/language_*.qm")
 if(WIN32)
     # win* path bin/translations/
-    install(FILES ${QM_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/translations)
-else()
+    install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_BINDIR}/translations)
+elseif(UNIX)
     # linux path share/freelib/translations/
     install(FILES ${QM_FILES} DESTINATION ${DATA_INSTALL_DIR}/translations)
 endif()
