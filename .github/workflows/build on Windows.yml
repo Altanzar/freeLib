@@ -64,7 +64,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: freeLib-*/freeLib-*
-          tag_name: ${{ github.sha }}
-          body: "Automated release from the release branch."
+          body: "Automated release from the release tag."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
