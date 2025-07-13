@@ -26,17 +26,17 @@ elseif(EXISTS ${CMAKE_SOURCE_DIR}/.gitrev)
 endif()
 message(STATUS "Found Git HEAD Revision: ${GIT_HEAD}\n")
 
-if(NOT APPLE)
+if(UNIX)
     file(COPY src/xsl/fonts DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/xsl)
 
     include(GNUInstallDirs)
     set(DATA_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/freelib")
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/xsl/fonts DESTINATION ${DATA_INSTALL_DIR})
 endif()
 
 add_subdirectory(src/)
 add_subdirectory(data/)
 
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/xsl/fonts DESTINATION ${DATA_INSTALL_DIR})
 set_target_properties(freelib PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
