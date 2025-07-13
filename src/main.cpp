@@ -95,8 +95,7 @@ std::cout  << "freelib " << FREELIB_VERSION << "\n\nfreelib [Option [Parameters]
 
 int main(int argc, char *argv[])
 {
-//idk why this failed link	
-    //Q_INIT_RESOURCE(resource);
+    Q_INIT_RESOURCE(resource);
 #ifdef USE_HTTSERVER
     bool bServer = false;
     QString sLanguageFilter;
@@ -371,7 +370,7 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
-    //Q_INIT_RESOURCE(resource);
+    Q_INIT_RESOURCE(resource);
     qputenv("QT_LOGGING_RULES", "qt.text.font.db=false");
 
 #ifdef Q_OS_MACX
