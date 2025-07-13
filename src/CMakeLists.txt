@@ -69,21 +69,6 @@ set(PROJECT_SOURCES
         fb2mobi/hyphenations.cpp            fb2mobi/hyphenations.h
         fb2mobi/fb2mobi.cpp                 fb2mobi/fb2mobi.h
         mobiEdit/mobiedit.cpp               mobiEdit/mobiedit.h
-        SmtpClient/src/emailaddress.cpp         SmtpClient/src/emailaddress.h
-        SmtpClient/src/mimeattachment.cpp       SmtpClient/src/mimeattachment.h
-        SmtpClient/src/mimecontentformatter.cpp SmtpClient/src/mimecontentformatter.h
-        SmtpClient/src/mimefile.cpp             SmtpClient/src/mimefile.h
-        SmtpClient/src/mimemessage.cpp          SmtpClient/src/mimemessage.h
-        SmtpClient/src/mimemultipart.cpp        SmtpClient/src/mimemultipart.h
-        SmtpClient/src/mimepart.cpp             SmtpClient/src/mimepart.h
-        SmtpClient/src/mimetext.cpp             SmtpClient/src/mimetext.h
-        SmtpClient/src/quotedprintable.cpp      SmtpClient/src/quotedprintable.h
-        SmtpClient/src/smtpclient.cpp           SmtpClient/src/smtpclient.h
-        SmtpClient/src/mimebase64encoder.cpp    SmtpClient/src/mimebase64encoder.h
-        SmtpClient/src/mimebase64formatter.cpp  SmtpClient/src/mimebase64formatter.h
-        SmtpClient/src/mimeqpformatter.cpp      SmtpClient/src/mimeqpformatter.h
-        SmtpClient/src/mimeqpencoder.cpp        SmtpClient/src/mimeqpencoder.h
-        SmtpClient/src/mimecontentencoder.cpp   SmtpClient/src/mimecontentencoder.h
 )
 
 add_subdirectory(Help)
@@ -128,8 +113,8 @@ if(TBB_FOUND)
     add_compile_definitions(USE_TBB)
 endif()
 
-#configure_file(translations.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-#file(COPY ${TS_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/translate)
+configure_file(translations.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+file(COPY ${TS_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/translate)
 
 if(NOT APPLE)
     file(COPY xsl/fonts DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/xsl)
@@ -156,11 +141,7 @@ else()
     )
 endif()
 
-#FILE(GLOB TS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.ts")
-#qt5_add_translation(QM_FILES ${TS_FILES})
-
 file(GLOB QM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/language_*.qm")
-#file(COPY ${QM_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/translations)
 install(FILES ${QM_FILES} DESTINATION ${DATA_INSTALL_DIR}/translations)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -206,11 +187,6 @@ if(TBB_FOUND)
     target_link_libraries(freelib PRIVATE TBB::tbb)
 endif()
 
-#target_link_libraries(freelib PUBLIC SmtpMime Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network -LH:/Qt/freeLib-master/src/SmtpClient/build/lib/libSmtpMime.dll.a)
-target_link_libraries(freelib PUBLIC SmtpMime -LH:/Qt/freeLib-master/src/SmtpClient/build/lib/)
-target_compile_definitions(freelib
-	    PRIVATE SMTP_MIME_LIBRARY
-    )
 target_precompile_headers(freelib
   PRIVATE
     precompiled.h
