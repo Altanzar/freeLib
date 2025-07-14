@@ -2,19 +2,17 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![build on Ubuntu 22.04](https://github.com/petrovvlad/freeLib/actions/workflows/build%20on%20Ubuntu%2022.04.yml/badge.svg?branch=master)](https://github.com/petrovvlad/freeLib/actions/workflows/build%20on%20Ubuntu%2022.04.yml)
 [![build on Ubuntu 24.04](https://github.com/petrovvlad/freeLib/actions/workflows/build%20on%20Ubuntu%2024.04.yml/badge.svg?branch=master)](https://github.com/petrovvlad/freeLib/actions/workflows/build%20on%20Ubuntu%2024.04.yml)
+[![build on Windows 2022/2025](https://github.com/Teriand/freeLib/actions/workflows/build%20on%20Windows.yml/badge.svg)](https://github.com/Teriand/freeLib/actions/workflows/build%20on%20Windows.yml)
 
 freeLib - каталогизатор для библиотек LibRusEc и Flibusta
 
 Это форк форка общедоступного freeLib 5.0 , разработка которого прекращена. 
 С целью сделать рабочий билд под windows (и он уже есть, проверено на qt6.8.2)
 
-
-
 TODO:
-* иконка не работает
-* cmake --install под windows
-* убрать консоль
- 
+- smtp добавить
+- opds
+
 ![screenshot](./doc/screenshot.png#gh-light-mode-only)
 ![screenshot](./doc/screenshot-dark.png#gh-dark-mode-only)
 * Создание собственных библиотек на основе файлов FB2(.ZIP), EPUB, FBD.
