@@ -48,22 +48,13 @@ jobs:
           windeployqt.exe freelib.exe --release --no-translations --no-system-d3d-compiler --no-opengl-sw 
           # libzlib.dll v1.3.1 auto copy with windeployqt, but need manual install without vcpkg
           Copy-Item -Path "C:/vcpkg/installed/x64-windows/bin/zlib1.dll" -Destination .
-          # Copy-Item -Path "${{github.workspace}}\freeLib-${{ matrix.os }}-final\share\freelib\translations\*" -Destination translations
-      - name: always
-        uses: actions/upload-artifact@v4
-        with:
-          name: freeLib-${{ matrix.os }}
-          path: ${{github.workspace}}/freeLib-${{ matrix.os }}-final/bin/
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
+          Compress-Archive -Path . -DestinationPath ${{github.workspace}}\freeLib-${{ matrix.os }}.zip
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: freeLib-*
+          files: ${{github.workspace}}\freeLib-${{ matrix.os }}.zip
           body: "Automated release from the release tag."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
